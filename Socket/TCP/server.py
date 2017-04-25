@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import socket
 
 #https://docs.python.org/2/library/socket.html#module-socket
@@ -46,9 +47,9 @@ while True:
 	con, cliente = tcp.accept()
 	print("Conectado por ", cliente)
 	while True:
-	"""	Receber dados do soquete. O valor de retorno é um par (string, address)
-	onde string é uma string representando os dados recebidos e address é o
-	endereço do soquete enviando os dados. """
+		"""	Receber dados do soquete. O valor de retorno é um par (string, address)
+		onde string é uma string representando os dados recebidos e address é o
+		endereço do soquete enviando os dados. """
 		msg = con.recv(1024)
 		if not msg: break
 		print cliente, msg

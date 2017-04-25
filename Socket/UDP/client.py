@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import socket
 
 HOST = '127.0.0.1'
@@ -27,4 +28,4 @@ msg = raw_input()
 while msg != '\x18':
 	udp.sendto(msg,dest)
 	msg = raw_input()
-upd.close()
+udp.close()
