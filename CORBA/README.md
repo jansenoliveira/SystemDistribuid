@@ -1,10 +1,16 @@
 # CORBA
 
+Para essa implementação, usamos o exemplo criado pela Oracle que pode ser encontrado aqui: 
+
+- [http://docs.oracle.com/javase/7/docs/technotes/guides/idl/jidlExample.html](http://docs.oracle.com/javase/7/docs/technotes/guides/idl/jidlExample.html)
+
 ## Implementação:
 
-⋅⋅* O IDL para um simples programa "Hello World"
-⋅⋅* Um servidor que cria um objeto e o publica com o serviço de nome usando a server-side implementation padrão (POA)
-⋅⋅* Um aplicativo cliente que conhece o nome do objeto, recupera uma referência para ele a partir do serviço de nome e invoca o objeto
+- O IDL para um simples programa "Hello World"
+
+- Um servidor que cria um objeto e o publica com o serviço de nome usando a server-side implementation padrão (POA)
+
+- Um aplicativo cliente que conhece o nome do objeto, recupera uma referência para ele a partir do serviço de nome e invoca o objeto
 
 A seguir, as instruções para compilar e executar o exemplo:
 
@@ -21,23 +27,23 @@ O servidor de exemplo consiste em duas classes, o **Servant** e o **Server**. O 
 
 A classe HelloServer tem o método main () do servidor, que:
 
-⋅⋅* Cria e inicializa uma instância ORB
-⋅⋅* Obtém uma referência ao POA 'root' e ativa o POAManager
-⋅⋅* Cria uma instância do Servant (a implementação de um objeto CORBA Hello) e informa o ORB sobre ele
-⋅⋅* Obtém uma referência de objeto CORBA para um naming context no qual registrar o novo objeto CORBA
-⋅⋅* Obtém o naming context 'root'
-⋅⋅* Registra o novo objeto no naming context sob o nome de "Hello"
-⋅⋅* Espera para invocações do novo objeto do cliente
+- Cria e inicializa uma instância ORB
+- Obtém uma referência ao POA 'root' e ativa o POAManager
+- Cria uma instância do Servant (a implementação de um objeto CORBA Hello) e informa o ORB sobre ele
+- Obtém uma referência de objeto CORBA para um naming context no qual registrar o novo objeto CORBA
+- Obtém o naming context 'root'
+- Registra o novo objeto no naming context sob o nome de "Hello"
+- Espera para invocações do novo objeto do cliente
 
 
 ### Implementando o aplicativo cliente (HelloClient.java)
 
 O cliente exemplo possui:
 
-⋅⋅* Cria e inicializa um ORB
-⋅⋅* Obtém uma referência ao naming context da 'root'
-⋅⋅* Faz um lookup "Hello" no naming context e recebe uma referência a esse objeto CORBA
-⋅⋅* Invoca as operações `sayHello()` e `shutdown()` do objeto e imprime o resultado
+- Cria e inicializa um ORB
+- Obtém uma referência ao naming context da 'root'
+- Faz um lookup "Hello" no naming context e recebe uma referência a esse objeto CORBA
+- Invoca as operações `sayHello()` e `shutdown()` do objeto e imprime o resultado
 
 Apesar do seu design simples, o programa Hello World permite que você aprenda e experimente todas as tarefas necessárias para desenvolver quase qualquer programa CORBA que use a *invocação estática*. A invocação estática, que usa um *stub* de cliente para a invocação e um *skeleton* de servidor para o serviço sendo invocado, é usada quando a interface do objeto é conhecida em tempo de compilação. Se a interface não for conhecida em tempo de compilação, a *invocação dinâmica* deve ser usada.
 
@@ -56,22 +62,22 @@ Você deve usar a opção `-fall` com o compilador `idlj` para gerar o *client* 
 
 O compilador idlj gera um número de arquivos. O número real de arquivos gerados depende das opções selecionadas quando o arquivo IDL é compilado. Os arquivos gerados fornecem funcionalidade padrão, portanto, você pode ignorá-los até que seja hora de implantar e executar seu programa. Os arquivos gerados pelo compilador idlj para Hello.idl, com a opção de linha de comando -fall, são:
 
-⋅⋅* HelloPOA.java
+- HelloPOA.java
 Esta classe abstrata é o skeleton do servidor baseado em fluxo, fornecendo funcionalidade CORBA básica para o servidor. Ele herda org.omg.PortableServer.Serva nt, e implementa a interface InvokeHandler e a interface HelloOperations. A classe de servidor HelloImpl herda HelloPOA.
 
-⋅⋅* _HelloStub.java
+- _HelloStub.java
 Esta classe é o stub do cliente, fornecendo funcionalidade CORBA para o cliente. Ele herda o `org.omg.CORBA.portable.ObjectImpl` e implementa a interface `Hello.java`.
 
-⋅⋅* Hello.java
+- Hello.java
 Esta interface contém a versão Java da nossa interface IDL. A interface Hello.java extends o org.omg.CORBA.Object, fornecendo a funcionalidade padrão do objeto CORBA. Também extends a interface `HelloOperations` e `org.omg.CORBA.portable.IDLEntity`.
 
-⋅⋅* HelloHelper.java
+- HelloHelper.java
 Esta classe fornece funcionalidade auxiliar, notavelmente o método `narrow()` requerido para converter referências de objeto CORBA para seus tipos apropriados. A classe Helper é responsável por ler e gravar o tipo de dados em fluxos CORBA e inserir e extrair o tipo de dados de Anys. A classe Holder delega os métodos na classe Helper para leitura e escrita.
 
-⋅⋅* HelloHolder.java
+- HelloHolder.java
 Esta classe final contém um membro de instância pública do tipo Hello. Sempre que o tipo IDL é um parâmetro out ou inout, a classe Holder é usada. Ele fornece operações para os argumentos `org.omg.CORBA.portable.OutputStream` e `org.omg.CORBA.portable.InputStream`, que o CORBA permite, mas que não mapeiam facilmente a semântica do Java. A classe Holder delega os métodos na classe Helper para leitura e escrita. Ele implementa `org.omg.CORBA.portable.Streamable`.
 
-..* HelloOperations.java
+- HelloOperations.java
 Esta interface contém os métodos `sayHello()` e `shutdown()`. O mapeamento IDL para Java coloca todas as operações definidas na interface IDL nesse arquivo, que é compartilhado pelos stubs e skeletons.
 
 
@@ -117,5 +123,6 @@ Especifique a porta do servidor de nomes (orbd) como feito na etapa anterior, po
 
 Quando tiver terminado este tutorial, certifique-se de desligar ou matar o servidor de nomes (orbd). Para fazer isso a partir de um prompt do DOS, selecione a janela que está executando o servidor e digite Ctrl + C para desligá-lo. Para fazer isso a partir de um shell Unix, localize o processo e mate-o. O servidor continuará a esperar por invocações até que seja explicitamente interrompido.
 
-- Link para a Documentação:
-[http://docs.oracle.com/javase/7/docs/technotes/guides/idl/jidlExample.html](http://docs.oracle.com/javase/7/docs/technotes/guides/idl/jidlExample.html)
+
+
+Copyright © 1993, 2014, Oracle and/or its affiliates. All rights reserved.
