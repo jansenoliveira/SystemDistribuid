@@ -19,7 +19,6 @@ tasks = [
 	}
 ]
 
-
 @app.route('/')
 def index():
 	return "URL PARA O ACESSO DA API: '/api/tasks'"
