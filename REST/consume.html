@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <meta charset="utf-8">
+  <title>Mashape Query</title>
+  <script>
+	function doIt() { 
+ var output = $.ajax({
+    url: 'http://127.0.0.1:5000/api/tasks', // The URL to the API. You can get this by clicking on "Show CURL example" from an API profile
+    type: 'GET', // The HTTP Method, can be GET POST PUT DELETE etc
+    contentType: "application/json; charset=utf-8",
+    dataType: 'json',
+    success: function(data) {
+        console.log(data);
+        var final_print = "";
+        // alert(data);
+        // console.log(data);
+        // document.getElementById("output").innerHTML = data.tasks;
+        $.each(data.tasks, function( index, value ){
+            // console.log(value);
+            $.each(value, function( key, value ) {
+                final_print += key+":"+value+"<br>";
+            });
+            final_print+="<br>";
+
+        });
+          document.getElementById("output").innerHTML = final_print;
+        },
+    error: function(err) { alert(err.getText); }
+});
+  
+
+}
+
+</script>
+</head>
+<body>
+  <button onclick="doIt()">Run the request</button>
+  <div id="output">The API request is:</div>
+  
+</body>
+</html>
